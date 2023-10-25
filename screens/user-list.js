@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, StyleSheet} from "react-native";
+import { Button } from "react-native";
 import { ListItem, Avatar } from "react-native-elements";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native";
 import { getUsers } from "../database/firebase";
 
 function UserList(props){
@@ -23,9 +23,8 @@ function UserList(props){
 
 
   return (
-    <ScrollView style={styles.container}>
-      <Button
-        onPress={() => props.navigation.navigate("UserCreateScreen")}
+    <ScrollView>
+      <Button onPress={() => props.navigation.navigate("UserCreateScreen") } 
         title="Crear usuario"
       />
 
@@ -52,12 +51,5 @@ function UserList(props){
   )
 }
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 35,
-  },
-});
 
 export default UserList

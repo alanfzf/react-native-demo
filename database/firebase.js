@@ -1,5 +1,5 @@
 import {initializeApp} from 'firebase/app'
-import { getFirestore, collection, getDocs, addDoc, getDoc, deleteDoc, doc, updateDoc, setDoc} from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, getDoc, deleteDoc, doc, updateDoc} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBrL38mHVtUIQXKK4qN_h2MzU1Za9AX6jw",
@@ -15,9 +15,7 @@ const db = getFirestore(app)
 const collName = 'users'
 
 async function createUser(name,email,phone){
-  const newDoc = await addDoc(collection(db,collName),{
-    name,email,phone
-  })
+  const newDoc = await addDoc(collection(db,collName),{ name,email,phone })
   return newDoc.id
 }
 
@@ -48,25 +46,15 @@ async function getUserById(id){
 async function deleteUser(id){
   const ref = doc(db, collName, id)
   const refdoc = await getDoc(ref)
-  deleteDoc(refdoc)
+  await deleteDoc(refdoc.ref)
 }
 
 async function editUser(id, name,email,phone){
   const ref = doc(db, collName, id)
   const refdoc = await getDoc(ref)
 
-  const updates = {
-    name,email,phone
-  }
-
-  updateDoc(refdoc.ref, updates);
+  const updates = {name,email,phone }
+  await updateDoc(refdoc.ref, updates);
 }
 
-
-export {
-  createUser,
-  getUsers,
-  getUserById,
-  deleteUser,
-  editUser
-}
+export { createUser, getUsers, getUserById, deleteUser, editUser }

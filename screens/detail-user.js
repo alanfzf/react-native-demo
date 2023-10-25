@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  Button,
-  View,
-  Alert,
-  ActivityIndicator,
-  StyleSheet,
-} from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import { editUser, getUserById } from "../database/firebase";
+import { ScrollView, Button, View, Alert, ActivityIndicator, StyleSheet, TextInput } from "react-native";
+import { deleteUser, editUser, getUserById } from "../database/firebase";
 
 
 const DetailUser = (props) => {
@@ -18,15 +10,21 @@ const DetailUser = (props) => {
 
 
   const openConfirmationAlert = () => {
-    Alert.alert(
-      "Removing the User",
-      "Are you sure?",
-      [
-        { text: "Yes", onPress: () => deleteUser() },
-        { text: "No", onPress: () => {}},
-      ],
-      { cancelable: true, }
-    );
+      Alert.alert(
+        "Removing the User",
+        "Are you sure?",
+        [
+          { text: "Yes", onPress: 
+          async () => {
+            const id = props.route.params.userId
+            await deleteUser(id)
+            props.navigation.navigate("UserListScreen")
+          }
+        },
+          { text: "No", onPress: () => {}},
+        ],
+        { cancelable: true, }
+      );
   };
 
   const updateUser = async () => {
@@ -35,9 +33,6 @@ const DetailUser = (props) => {
     props.navigation.navigate("UserListScreen");
   };
 
-  const deleteUser = async () => { 
-
-  }
 
   useEffect(() => { 
     getUserById(props.route.params.userId).then(x =>{
@@ -48,7 +43,7 @@ const DetailUser = (props) => {
 
   if (loading) {
     return (
-      <View style={styles.loader}>
+      <View>
         <ActivityIndicator size="large" color="#9E9E9E" />
       </View>
     );
@@ -90,6 +85,7 @@ const DetailUser = (props) => {
         <Button title="Update" onPress={updateUser} color="#19AC52" />
       </View>
     </ScrollView>
+
   );
 };
 

@@ -3,28 +3,15 @@ import { Button, View, StyleSheet, TextInput, ScrollView, } from "react-native";
 import  { createUser } from '../database/firebase'
 
 
-
-
 function CreateUser(props){
 
-  const [state, setState] = useState({
-    name: "",
-    email: "",
-    phone: "",
-  });
-
-  const handleChangeText = (value, name) => {
-    setState({ ...state, [name]: value });
-  };
+  const [state, setState] = useState({ name: "", email: "", phone: "", });
+  const handleChangeText = (value, name) => { setState({ ...state, [name]: value }) };
 
 
   const saveNewUser = async () => {
-
     const {name, email, phone} = state
-
-    if(!name || !email || !phone){ alert("verifica los campos!"); return }
-
-
+    if(!name || !email || !phone){ alert("Verifica los campos!"); return }
 
     try {
       await createUser(name,email,phone)
